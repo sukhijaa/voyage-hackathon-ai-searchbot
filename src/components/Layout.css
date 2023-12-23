@@ -1,0 +1,5 @@
+.page-conents {
+    margin-top: 64px;
+    padding: 10px;
+    min-height: calc(100vh - 64px);
+}
