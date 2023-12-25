@@ -1,5 +1,5 @@
 import './TeamDetails.css';
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout.js'
 
 function TeamDetails() {
   return (

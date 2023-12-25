@@ -1,0 +1,31 @@
+.landing-page-wrapper {
+    width: 100%;
+    height: 100%;
+}
+.landing-page-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.landing-page-subtitle {
+    font-size: 16px;
+    text-align: center;
+}
+.landing-page-ul {
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.landing-page-li {
+    font-weight: normal
+}
+.landing-page-details {
+    padding-left: 40px;
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.landing-page-search {
+    text-align: center;
+    margin-top: 30px;
+}

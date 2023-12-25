@@ -1,7 +1,7 @@
-import App from "./pages/LandingPage";
+import App from "./pages/LandingPage.js";
 import {createBrowserRouter} from "react-router-dom"
-import SearchPage from "./pages/SearchPage";
-import TeamDetails from "./pages/TeamDetails";
+import SearchPage from "./pages/SearchPage.js";
+import TeamDetails from "./pages/TeamDetails.js";
 import FaqPage from "./pages/FaqPage.js";
 
 const routes = [

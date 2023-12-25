@@ -2,4 +2,7 @@
     margin-top: 64px;
     padding: 10px;
     min-height: calc(100vh - 64px);
+    flex-grow: 100;
+    max-height: calc(100vh - 64px);
+    overflow: scroll;
 }

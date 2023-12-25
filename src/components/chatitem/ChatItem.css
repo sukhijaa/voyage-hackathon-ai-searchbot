@@ -1,0 +1,36 @@
+.search-chat-self-bubble {
+    background-color: blue;
+    color: white;
+    align-self: flex-end;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.search-chat-system-bubble {
+    background-color: orange;
+    align-self: flex-start;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.search-chat-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px 0
+}
+.search-chat-divider {
+    border: 0.5px solid lightgray;
+    width: 100%;
+}
+.search-chat-message {
+    font-size: 12px;
+    text-align: center;
+    position: relative;
+    top: -10px;
+    background-color: white;
+    color: lightgray;
+    width: fit-content;
+    padding: 0 15px;
+}
