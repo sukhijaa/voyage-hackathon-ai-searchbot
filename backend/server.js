@@ -1,18 +1,22 @@
-const express = require("express")
-const path = require("path");
-const SimConListener = require("./backend/ConnectionListener.js")
-const {WebSocketServer} = require("ws")
+import express from "express";
+import { join, dirname } from "path";
+import SimConListener from "./ConnectionListener.js";
+import { WebSocketServer } from "ws";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
-const staticPath = path.join(__dirname, 'build');
+const staticPath = join(__dirname, 'build');
 console.log(`Setting Static Path to : ${staticPath}`);
 app.use(express.static(staticPath));
 
 console.log('All routes serving index.html');
 
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(join(__dirname, 'build', 'index.html'));
 });
 
 console.log("Starting to create HTTP Server");

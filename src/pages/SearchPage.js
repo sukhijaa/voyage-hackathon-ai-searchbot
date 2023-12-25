@@ -7,6 +7,12 @@ import { Send } from "@mui/icons-material";
 import { appendChat, resetChat } from "../store/chatbotReducer.js";
 import { useDispatch, useSelector } from "react-redux";
 import ChatItem from "../components/chatitem/ChatItem.js";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import SearchComponents from "../components/searchComponents/SearchComponents.js";
 
 const tcpEvictHelper = {
   hrClearIntervalMethod: () => {},
@@ -31,13 +37,24 @@ const closeConnection = () => {
 
 function SearchPage() {
   const [input, setInput] = useState("");
-  const interactions = useSelector(state => state.chatbot.interactions)
-  const dispatch = useDispatch()
-  const chatEndRef = useRef(null)
+  const [errorMsg, setErrorMsg] = useState("");
+  const interactions = useSelector((state) => state.chatbot.interactions);
+  const dispatch = useDispatch();
+  const chatEndRef = useRef(null);
+
+  const systemInteractions = interactions.filter(
+    (intObj) => intObj.components && !!Object.keys(intObj.components).length
+  );
+  const latestInteraction = systemInteractions.length
+    ? systemInteractions[systemInteractions.length - 1]
+    : {};
+  const showOptionsDataType =
+    latestInteraction?.responseOptions?.showOptions &&
+    latestInteraction?.responseOptions?.dataType;
 
   const handleMessageReceived = (data) => {
     console.log("SearcgPage - " + JSON.stringify(data));
-    dispatch(appendChat(data, "SERVER"))
+    dispatch(appendChat(data, "SERVER"));
   };
 
   useEffect(() => {
@@ -48,48 +65,110 @@ function SearchPage() {
   }, []);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [interactions])
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [interactions]);
 
   const handleSend = () => {
-    if (!input) {
-      return
+    if (!input || errorMsg) {
+      return;
     }
-    dispatch(appendChat({type: "chat", message: input}, "SELF"))
-    tcpEvictHelper.connection.sendMessage(input)
-    setInput("")
-  }
+    // getConnection()
+    dispatch(
+      appendChat(
+        {
+          type: "chat",
+          message: input,
+          components: (latestInteraction || {}).components,
+        },
+        "SELF"
+      )
+    );
+    tcpEvictHelper.connection.sendMessage({
+      message: input,
+      components: (latestInteraction || {}).components,
+      responseOptions: (latestInteraction || {}).responseOptions,
+    });
+    setInput("");
+  };
 
   const handleInput = (e) => {
-    setInput(e.target.value)
-  }
+    const value = e.target.value;
+    setInput(value);
 
-  const handleStartover = () => {
-    dispatch(resetChat())
-  }
+    if (showOptionsDataType === "date") {
+      const dateVal = new Date(value);
+      if (
+        !dateVal ||
+        dateVal.getTime() < new Date().getTime() ||
+        dateVal.getTime() > new Date().getTime() + 365 * 24 * 60 * 60 * 1000
+      ) {
+        setErrorMsg("Please enter a valid value within next 1 year");
+        return;
+      }
+
+      const { components, responseOptions } = latestInteraction;
+      if (responseOptions?.gte && components?.[responseOptions.gte]) {
+        const refValue = new Date(components[responseOptions.gte]);
+        if (dateVal < refValue) {
+          setErrorMsg(
+            "Please select a value less than " + components[responseOptions.gte]
+          );
+          return;
+        }
+      }
+
+      if (responseOptions?.lte && components?.[responseOptions.lte]) {
+        const refValue = new Date(components[responseOptions.lte]);
+        if (dateVal > refValue) {
+          setErrorMsg(
+            "Please select a value greater than " +
+              components[responseOptions.lte]
+          );
+          return;
+        }
+      }
+
+      setErrorMsg("");
+    }
+  };
+
+  const handleStartover = (e) => {
+    dispatch(resetChat());
+    e.stopPropagation();
+    e.preventDefault();
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleSend()
+      handleSend();
     }
-  }
+  };
 
   return (
     <Layout title={"Search"}>
       <div className="search-body">
-        <div className="search-chat-startover">
-          <Button onClick={handleStartover}>Start Over</Button>
-        </div>
+        <SearchComponents
+          components={latestInteraction.components}
+          onStartOver={handleStartover}
+        />
         <div className="search-chat-area">
-          {
-            (interactions || []).map((item, index) => {
-              return <ChatItem item={item} key={index}/>
-            })
-          }
-          <div ref={chatEndRef}/>
+          {(interactions || []).map((item, index) => {
+            return <ChatItem item={item} key={index} />;
+          })}
+          <div ref={chatEndRef} />
         </div>
         <div className="search-chat-input">
-          <TextField label="Enter Your Query" onChange={handleInput} value={input} autoComplete="off" onKeyDown={handleKeyDown} inputProps={{autoComplete: "off"}}/>
+          <TextField
+            label={showOptionsDataType ? "" : "Enter Your Query"}
+            onChange={handleInput}
+            value={input}
+            autoComplete="off"
+            onKeyDown={handleKeyDown}
+            inputProps={{ autoComplete: "off" }}
+            type={showOptionsDataType ? showOptionsDataType : "text"}
+            error={!!errorMsg}
+            helperText={errorMsg}
+          />
           <Send onClick={handleSend}></Send>
         </div>
       </div>

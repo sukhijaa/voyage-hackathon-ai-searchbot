@@ -1,0 +1,32 @@
+.search-chat-startover {
+    text-align: right;
+}
+.search-chat-accordion-title {
+    flex-grow: 100;
+}
+.search-chat-components {
+    position: absolute !important;
+    z-index: 100;
+    min-width: 500px;
+    right: 5px;
+    opacity: 100;
+}
+.search-chat-components .MuiAccordionSummary-content {
+    align-items: center;
+}
+.search-chat-accordion-details {
+    display: flex;
+    flex-direction: column;
+}
+.search-chat-accordion-details-single-row-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-chat-accordion-details-single-row-title {
+    min-width: 250px;
+    font-weight: bold;
+}
+.search-chat-accordion-details-single-row-value {
+    flex-grow: 100;
+}

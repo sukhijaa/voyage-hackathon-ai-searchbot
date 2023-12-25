@@ -17,8 +17,8 @@ export class SendTCPMessage {
 
   sendMessage = data => {
     if (this.webSocket && this.webSocket.url) {
-      console.log(`Date Send to ${this.webSocket.url} : ${data}`);
-      this.webSocket.send(data);
+      console.log(`Date Send to ${this.webSocket.url} : ${JSON.stringify(data)}`);
+      this.webSocket.send(JSON.stringify(data));
     }
   };
 

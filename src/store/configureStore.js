@@ -2,7 +2,7 @@ import { applyMiddleware, createStore } from 'redux'
 import {thunk} from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage/session.js'
+import storage from 'redux-persist/lib/storage/session'
  
 import rootReducer from './reducers.js'
  

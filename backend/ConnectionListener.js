@@ -1,3 +1,5 @@
+import { handleUserInput } from "./HandleIncomingMessage.js";
+
 const SimConListener = (ws, req) => {
   console.info("Connection Established")
 
@@ -9,7 +11,7 @@ const SimConListener = (ws, req) => {
 
   ws.on("message", async message => {
     console.log(`Data received from Socket : ${clientAddres}:${clientPort} : ${message}`)
-    socketWriter({type: "chat", message: "Message Recevied by Server. Please wait"})
+    handleUserInput(JSON.parse(message), socketWriter);
   });
 
   //Handle client connection termination.
@@ -24,4 +26,4 @@ const SimConListener = (ws, req) => {
   });
 };
 
-module.exports = SimConListener;
+export default SimConListener;

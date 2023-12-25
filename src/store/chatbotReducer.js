@@ -22,7 +22,7 @@ export default chatbotReducer
 export const appendChat = (data, sender) => {
     return {
         type: "chat.append.message",
-        payload: {sender, type: data.type, message: data.message}
+        payload: {sender, ...data, time: new Date().getTime()}
     }
 }
 
