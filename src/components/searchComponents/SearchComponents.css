@@ -4,27 +4,23 @@
 .search-chat-accordion-title {
     flex-grow: 100;
 }
-.search-chat-components {
-    position: absolute !important;
-    z-index: 100;
-    min-width: 500px;
-    right: 5px;
-    opacity: 100;
-}
 .search-chat-components .MuiAccordionSummary-content {
     align-items: center;
 }
 .search-chat-accordion-details {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 100px;
+    z-index: 100;
 }
 .search-chat-accordion-details-single-row-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 1;
 }
 .search-chat-accordion-details-single-row-title {
-    min-width: 250px;
+    min-width: 180px;
     font-weight: bold;
 }
 .search-chat-accordion-details-single-row-value {

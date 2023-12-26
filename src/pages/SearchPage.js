@@ -44,7 +44,9 @@ function SearchPage() {
   const chatEndRef = useRef(null);
 
   const systemInteractions = interactions.filter(
-    (intObj) => (intObj.components && !!Object.keys(intObj.components).length) || (intObj.responseOptions && !!Object.keys(intObj.responseOptions).length)
+    (intObj) =>
+      (intObj.components && !!Object.keys(intObj.components).length) ||
+      (intObj.responseOptions && !!Object.keys(intObj.responseOptions).length)
   );
   const latestInteraction = systemInteractions.length
     ? systemInteractions[systemInteractions.length - 1]
@@ -57,7 +59,7 @@ function SearchPage() {
     console.log("SearcgPage - " + JSON.stringify(data));
     dispatch(appendChat(data, "SERVER"));
     if (data.stopLoader) {
-      showLoader(false)
+      showLoader(false);
     }
   };
 
@@ -93,7 +95,7 @@ function SearchPage() {
       responseOptions: (latestInteraction || {}).responseOptions,
     });
     setInput("");
-    showLoader(true)
+    showLoader(true);
   };
 
   const handleInput = (e) => {
@@ -152,15 +154,17 @@ function SearchPage() {
   return (
     <Layout title={"Search"}>
       <div className="search-body">
-        <SearchComponents
-          components={latestInteraction.components || {}}
-          onStartOver={handleStartover}
-        />
         <div className="search-chat-area">
-          {(interactions || []).map((item, index) => {
-            return <ChatItem item={item} key={index} />;
-          })}
-          <div ref={chatEndRef} />
+          <SearchComponents
+            components={latestInteraction.components || {}}
+            onStartOver={handleStartover}
+          />
+          <div className="search-chat-interactions">
+            {(interactions || []).map((item, index) => {
+              return <ChatItem item={item} key={index} />;
+            })}
+            <div ref={chatEndRef} />
+          </div>
         </div>
         <div className="search-chat-input">
           <TextField
@@ -174,9 +178,7 @@ function SearchPage() {
             error={!!errorMsg}
             helperText={errorMsg}
           />
-          {
-            loading ? <CircularProgress/> : <Send onClick={handleSend}></Send>
-          }
+          {loading ? <CircularProgress /> : <Send onClick={handleSend}></Send>}
         </div>
       </div>
     </Layout>
