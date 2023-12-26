@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore } from 'redux'
+import { applyMiddleware, createStore, compose } from 'redux'
 import {thunk} from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { persistStore, persistReducer } from 'redux-persist'
@@ -18,9 +18,11 @@ export default function configureStore(preloadedState) {
   const middlewares = [thunk]
   const middlewareEnhancer = applyMiddleware(...middlewares)
 
-  let composedEnhancers = [middlewareEnhancer]
+  let composedEnhancers
   if (process.env.NODE_ENV === "development") {
-    composedEnhancers = composeWithDevTools(...composedEnhancers)
+    composedEnhancers = composeWithDevTools(middlewareEnhancer)
+  } else {
+    composedEnhancers = compose(middlewareEnhancer)
   }
 
   const store = createStore(persistedReducer, preloadedState, composedEnhancers)
