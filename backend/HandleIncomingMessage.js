@@ -48,7 +48,7 @@ const INPUTS = [
     },
     {
         "key": "destinationAirport",
-        "openAI": (message, components) => `tell me in one word what is destination airport code mentioned in input - '${components.destination}'`,
+        "openAI": (message, components) => `tell me in one word what is destination airport code for city - '${components.destination}'`,
         "chatResponse": (message) => null,
         dataChecker: (gptOutput) => typeof gptOutput === "string" && gptOutput.length === 3
     },
@@ -100,7 +100,8 @@ export const handleUserInput = async (dataObj, writer) => {
             type: "chat",
             message: "All inputs have been processed. Creating your personalized itinerary now",
             components,
-            isFinished: true
+            isFinished: true,
+            stopLoader: true
         })
         return
     }
@@ -109,6 +110,7 @@ export const handleUserInput = async (dataObj, writer) => {
         type: "chat",
         message: invalidComponent.chatResponse(message),
         components,
-        responseOptions: {...(invalidComponent.chatResponseData || {}), componentKey: invalidComponent.key}
+        responseOptions: {...(invalidComponent.chatResponseData || {}), componentKey: invalidComponent.key},
+        stopLoader: true
     })
 }

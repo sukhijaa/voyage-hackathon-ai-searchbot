@@ -2,7 +2,7 @@ import "./SearchPage.css";
 import Layout from "../components/layout/Layout.js";
 import { SendTCPMessage } from "../utils/SendTCPMessage.js";
 import { useEffect, useRef, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import { appendChat, resetChat } from "../store/chatbotReducer.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +38,7 @@ const closeConnection = () => {
 function SearchPage() {
   const [input, setInput] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, showLoader] = useState(false);
   const interactions = useSelector((state) => state.chatbot.interactions);
   const dispatch = useDispatch();
   const chatEndRef = useRef(null);
@@ -55,6 +56,9 @@ function SearchPage() {
   const handleMessageReceived = (data) => {
     console.log("SearcgPage - " + JSON.stringify(data));
     dispatch(appendChat(data, "SERVER"));
+    if (data.stopLoader) {
+      showLoader(false)
+    }
   };
 
   useEffect(() => {
@@ -89,6 +93,7 @@ function SearchPage() {
       responseOptions: (latestInteraction || {}).responseOptions,
     });
     setInput("");
+    showLoader(true)
   };
 
   const handleInput = (e) => {
@@ -169,7 +174,9 @@ function SearchPage() {
             error={!!errorMsg}
             helperText={errorMsg}
           />
-          <Send onClick={handleSend}></Send>
+          {
+            loading ? <CircularProgress/> : <Send onClick={handleSend}></Send>
+          }
         </div>
       </div>
     </Layout>

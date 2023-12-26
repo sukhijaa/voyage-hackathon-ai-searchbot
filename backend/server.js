@@ -16,7 +16,7 @@ app.use(express.static(staticPath));
 console.log('All routes serving index.html');
 
 app.get('/*', function(req, res) {
-  res.sendFile(join(__dirname, 'build', 'index.html'));
+  res.sendFile(join(__dirname, '..', 'build', 'index.html'));
 });
 
 console.log("Starting to create HTTP Server");
