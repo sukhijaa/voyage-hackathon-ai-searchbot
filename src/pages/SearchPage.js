@@ -43,7 +43,7 @@ function SearchPage() {
   const chatEndRef = useRef(null);
 
   const systemInteractions = interactions.filter(
-    (intObj) => intObj.components && !!Object.keys(intObj.components).length
+    (intObj) => (intObj.components && !!Object.keys(intObj.components) || (intObj.responseOptions && !!Object.keys(intObj.responseOptions))).length
   );
   const latestInteraction = systemInteractions.length
     ? systemInteractions[systemInteractions.length - 1]
@@ -148,7 +148,7 @@ function SearchPage() {
     <Layout title={"Search"}>
       <div className="search-body">
         <SearchComponents
-          components={latestInteraction.components}
+          components={latestInteraction.components || {}}
           onStartOver={handleStartover}
         />
         <div className="search-chat-area">
