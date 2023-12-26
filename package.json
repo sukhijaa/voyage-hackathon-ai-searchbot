@@ -30,7 +30,8 @@
         "build": "react-scripts build",
         "eject": "react-scripts eject",
         "prod": "node server",
-        "test": "node backend/Bard"
+        "test": "node backend/Bard",
+        "build-commit": "npm run build && git add . && git commit -m 'Publishing' && git push"
     },
     "eslintConfig": {
         "extends": [
