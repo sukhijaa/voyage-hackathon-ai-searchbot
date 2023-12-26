@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-const staticPath = join(__dirname, 'build');
+const staticPath = join(__dirname, '..', 'build');
 console.log(`Setting Static Path to : ${staticPath}`);
 app.use(express.static(staticPath));
 
