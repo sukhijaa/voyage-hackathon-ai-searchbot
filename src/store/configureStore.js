@@ -18,8 +18,10 @@ export default function configureStore(preloadedState) {
   const middlewares = [thunk]
   const middlewareEnhancer = applyMiddleware(...middlewares)
 
-  const enhancers = [middlewareEnhancer]
-  const composedEnhancers = composeWithDevTools(...enhancers)
+  let composedEnhancers = [middlewareEnhancer]
+  if (process.env.NODE_ENV === "development") {
+    composedEnhancers = composeWithDevTools(...composedEnhancers)
+  }
 
   const store = createStore(persistedReducer, preloadedState, composedEnhancers)
   const persistor = persistStore(store)
