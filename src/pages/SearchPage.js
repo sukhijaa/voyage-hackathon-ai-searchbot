@@ -47,6 +47,8 @@ function SearchPage() {
   const [loading, showLoader] = useState(false);
   const interactions = useSelector((state) => state.chatbot.interactions);
   const searchOutput = useSelector((state) => state.chatbot.searchOutput);
+  const searchError = useSelector((state) => state.chatbot.searchError);
+  const searchLoading = useSelector((state) => state.chatbot.searchLoading);
   const dispatch = useDispatch();
   const chatEndRef = useRef(null);
 
@@ -169,12 +171,16 @@ function SearchPage() {
   };
 
   const handleKeyDown = (e) => {
+    if (loading || searchLoading) {
+      return;
+    }
     if (e.key === "Enter") {
       handleSend();
     }
   };
 
   const searchOutputExists = (searchOutput?.hotels?.length > 0) || (searchOutput?.flights?.length > 0)
+  const resultsLoading = loading || searchLoading
 
   return (
     <Layout title={"Search"}>
@@ -191,7 +197,7 @@ function SearchPage() {
             <div ref={chatEndRef} />
           </div>
         </div>
-        {searchOutputExists ? (
+        {(searchOutputExists || !!searchError) && !resultsLoading ? (
           <div className="search-chat-output">
             <SearchOutput/>
           </div>
@@ -208,7 +214,7 @@ function SearchPage() {
               error={!!errorMsg}
               helperText={errorMsg}
             />
-            {loading ? (
+            {resultsLoading ? (
               <CircularProgress />
             ) : (
               <Send onClick={handleSend}></Send>

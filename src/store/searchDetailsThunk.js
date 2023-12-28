@@ -1,4 +1,4 @@
-import { setFinalizedComponents, setSearchOutput } from "./chatbotReducer";
+import { setFinalizedComponents, setSearchError, setSearchLoading, setSearchOutput } from "./chatbotReducer";
 
 export const handleDataSearch =
   (finalComponents) => async (dispatch, getState) => {
@@ -7,6 +7,7 @@ export const handleDataSearch =
     }
     dispatch(setFinalizedComponents(finalComponents));
     dispatch(setSearchOutput({}));
+    dispatch(setSearchLoading(true))
 
     let baseURL = "";
     console.log(process.env)
@@ -14,14 +15,25 @@ export const handleDataSearch =
         baseURL = "http://localhost:8000"
     }
 
-    const responseObj = await fetch(baseURL + "/api/fetchSearchResults", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(finalComponents),
-    });
+    try {
+        const responseObj = await fetch(baseURL + "/api/fetchSearchResults", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(finalComponents),
+          });
 
-    const responseData = await responseObj.json();
-    dispatch(setSearchOutput(responseData));
+          if (responseObj.status !== 200) {
+            throw new Error("API returned status code other than 200");
+          }
+          const responseData = await responseObj.json();
+          dispatch(setSearchOutput(responseData));
+          dispatch(setSearchError(""))
+    } catch(e) {
+        console.error("Error fetching search results. Error : " + e)
+        dispatch(setSearchError("Failed to fetch itinerary. Please try again"))
+    } finally {
+        dispatch(setSearchLoading(false))
+    }
   };

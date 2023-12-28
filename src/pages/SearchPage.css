@@ -10,8 +10,8 @@
     flex-direction: column;
 }
 .search-chat-area.detailsOpen {
-    height: calc(100% - 310px);
-    max-height: calc(100% - 310px);;
+    height: calc(100% - 330px);
+    max-height: calc(100% - 330px);;
 }
 .search-chat-components {
     min-height: 60px;
@@ -39,7 +39,10 @@
     flex-grow: 100;
     padding: 0 10px;
 }
+.search-chat-input .search-error {
+    flex-grow: 100;
+    padding: 0 10px;
+}
 .search-chat-output {
-    min-height: 200px;
     width: 100%;
 }

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
 import { buildItineraryFromComponents } from "./ItineraryBuilder.js";
 import cors from "cors";
+import { refreshData } from "./DataStore.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,3 +43,4 @@ const wss = new WebSocketServer(
 
 wss.on("connection", SimConListener);
 
+refreshData()

@@ -48,7 +48,7 @@ const INPUTS = [
     },
     {
         "key": "destinationAirport",
-        "openAI": (message, components) => `tell me in one word what is destination airport code for city - '${components.destination}'`,
+        "openAI": (message, components) => `tell me in one word what is nearest destination airport code for city - '${components.destination}'`,
         "chatResponse": (message) => null,
         dataChecker: (gptOutput) => typeof gptOutput === "string" && gptOutput.length === 3
     },
@@ -67,7 +67,7 @@ const INPUTS = [
     {
         "key": "budget",
         "openAI": () => null,
-        "chatResponse": () => `Please select your max budget`,
+        "chatResponse": () => `Please select your max budget in USD`,
         "chatResponseData": {
             showOptions: true,
             dataType: "number",
@@ -116,7 +116,7 @@ export const handleUserInput = async (dataObj, writer) => {
         if (gptResponse === "##retry##") {
             writer({
                 type: "chat",
-                message: "Since We're using Free Version of ChatGPT, we'll need to wait 60s more. Sorry for inconveniecne"
+                message: "Since We're using Free Version of ChatGPT, we'll need to wait 60s more. Sorry for inconvenience"
             })
             await waitForTime(60)
             i--;

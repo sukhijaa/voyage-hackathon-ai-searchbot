@@ -1,7 +1,9 @@
 const initialState = {
     interactions: [],
     finalizedComponents: {},
-    searchOutput: {}
+    searchOutput: {},
+    searchError: "",
+    searchLoading: false
 }
 
 const chatbotReducer = (state = initialState, action) => {
@@ -19,6 +21,12 @@ const chatbotReducer = (state = initialState, action) => {
         }
         case "chat.search.output": {
             return {...state, searchOutput: action.payload}
+        }
+        case "chat.search.error": {
+            return {...state, searchError: action.payload}
+        }
+        case "chat.search.loading": {
+            return {...state, searchLoading: action.payload}
         }
         default: 
         return state
@@ -50,6 +58,20 @@ export const setFinalizedComponents = (data) => {
 export const setSearchOutput = (data) => {
     return {
         type: "chat.search.output",
+        payload: data
+    }
+}
+
+export const setSearchError = (data) => {
+    return {
+        type: "chat.search.error",
+        payload: data
+    }
+}
+
+export const setSearchLoading = (data) => {
+    return {
+        type: "chat.search.loading",
         payload: data
     }
 }
