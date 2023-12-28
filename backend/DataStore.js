@@ -1,4 +1,6 @@
 import fetch from "node-fetch";
+import dotenv from 'dotenv'
+dotenv.config()
 
 const countries = {};
 const cities = {};
@@ -13,7 +15,7 @@ const refreshCountries = async () => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Basic bWVuYXFhOlRib0A2MzA5NTYyOA=="
+            "Authorization": "Basic " + process.env.HOTE_BASIC_AUTH
         }
     });
 
@@ -43,7 +45,7 @@ const refreshCityForACountry = async (CountryCode) => {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Basic bWVuYXFhOlRib0A2MzA5NTYyOA=="
+            "Authorization": "Basic " + process.env.HOTE_BASIC_AUTH
         },
         body: JSON.stringify({CountryCode})
     });
@@ -78,7 +80,7 @@ const refreshCities = async () => {
         return;
     }
 
-    const batchSize = 20;
+    const batchSize = 10;
     let currentBatch = []
     for (let i = 0; i < countryCodes.length; i++) {
         currentBatch.push(countryCodes[i])
@@ -102,7 +104,7 @@ const refreshAirlineToken = async () => {
         body: JSON.stringify({
             "ClientId": "ApiIntegrationNew",
             "UserName": "Hackathon",
-            "Password": "Hackathon@1234",
+            "Password": process.env.AIRLINE_PASSWORD,
             "EndUserIp": "192.168.11.120"
         })
     })

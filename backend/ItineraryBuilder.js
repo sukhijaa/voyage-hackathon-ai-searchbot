@@ -64,7 +64,7 @@ const fetchHotels = async (components) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic bWVuYXFhOlRib0A2MzA5NTYyOA==",
+          Authorization: "Basic " + process.env.HOTE_BASIC_AUTH,
         },
         body: JSON.stringify(request),
       }

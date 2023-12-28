@@ -29,7 +29,7 @@ app.post('/api/fetchSearchResults', buildItineraryFromComponents)
 
 console.log("Starting to create HTTP Server");
 
-app.listen(8000, () => console.log('Server Started Succesfully'));
+app.listen(8000, () => console.log('Server Started Succesfully on port 8000'));
 
 const wss = new WebSocketServer(
   {
