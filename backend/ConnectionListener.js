@@ -8,6 +8,7 @@ const SimConListener = (ws, req) => {
   const clientPort = req.socket.remotePort;
 
   socketWriter({type: "connection", message: "Connection Established"});
+  socketWriter({type: "chat", message: "Welcome to TBO Holiday Planner. How can i help you today?"});
 
   ws.on("message", async message => {
     console.log(`Data received from Socket : ${clientAddres}:${clientPort} : ${message}`)

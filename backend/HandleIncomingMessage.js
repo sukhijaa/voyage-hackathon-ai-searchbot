@@ -52,6 +52,30 @@ const INPUTS = [
         "chatResponse": (message) => null,
         dataChecker: (gptOutput) => typeof gptOutput === "string" && gptOutput.length === 3
     },
+    {
+        "key": "passengers",
+        "openAI": () => null,
+        "chatResponse": () => `Please select the number of passengers`,
+        "chatResponseData": {
+            showOptions: true,
+            dataType: "number",
+            min: 1,
+            max: 10
+        },
+        dataChecker: () => true
+    },
+    {
+        "key": "budget",
+        "openAI": () => null,
+        "chatResponse": () => `Please select your max budget`,
+        "chatResponseData": {
+            showOptions: true,
+            dataType: "number",
+            min: 500,
+            max: 100000
+        },
+        dataChecker: () => true
+    },
 ]
 
 const waitForTime = (seconds) => {
@@ -63,6 +87,11 @@ const waitForTime = (seconds) => {
 export const handleUserInput = async (dataObj, writer) => {
     const {components: inputComponents, message, responseOptions} = dataObj;
     const components = {...(inputComponents || {})}
+
+    if (!components.source) {
+        components.source = "Delhi"
+        components.sourceAirport = "DEL"
+    }
 
     let goToGPT = true;
     if (responseOptions && responseOptions.componentKey) {
@@ -76,7 +105,13 @@ export const handleUserInput = async (dataObj, writer) => {
             continue
         }
 
-        const gptResponse = await APIcall(invalidComponent.openAI(message, components));
+        const openAIMessage = invalidComponent.openAI(message, components)
+
+        if (!openAIMessage) {
+            continue
+        }
+
+        const gptResponse = await APIcall(openAIMessage);
         console.log(gptResponse)
         if (gptResponse === "##retry##") {
             writer({
@@ -101,6 +136,18 @@ export const handleUserInput = async (dataObj, writer) => {
             message: "All inputs have been processed. Creating your personalized itinerary now",
             components,
             isFinished: true,
+            stopLoader: true
+        })
+        writer({
+            type: "chat",
+            message: "You may check the search data from Selected Components section on top",
+            components,
+            stopLoader: true
+        })
+        writer({
+            type: "chat",
+            message: "As part of PoC, we are not supporting component editing. You can Start Over if you wish to change some components",
+            components,
             stopLoader: true
         })
         return

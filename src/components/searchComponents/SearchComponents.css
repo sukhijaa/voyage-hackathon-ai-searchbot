@@ -18,6 +18,7 @@
     align-items: center;
     justify-content: center;
     flex: 1;
+    margin: 10px 20px;
 }
 .search-chat-accordion-details-single-row-title {
     min-width: 180px;

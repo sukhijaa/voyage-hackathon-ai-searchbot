@@ -4,7 +4,11 @@ import { SendTCPMessage } from "../utils/SendTCPMessage.js";
 import { useEffect, useRef, useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { appendChat, resetChat } from "../store/chatbotReducer.js";
+import {
+  appendChat,
+  resetChat,
+  setFinalizedComponents,
+} from "../store/chatbotReducer.js";
 import { useDispatch, useSelector } from "react-redux";
 import ChatItem from "../components/chatitem/ChatItem.js";
 import Accordion from "@mui/material/Accordion";
@@ -13,6 +17,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchComponents from "../components/searchComponents/SearchComponents.js";
+import { handleDataSearch } from "../store/searchDetailsThunk.js";
+import SearchOutput from "../components/searchOutput/SearchOutput.js";
 
 const tcpEvictHelper = {
   hrClearIntervalMethod: () => {},
@@ -40,6 +46,7 @@ function SearchPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, showLoader] = useState(false);
   const interactions = useSelector((state) => state.chatbot.interactions);
+  const searchOutput = useSelector((state) => state.chatbot.searchOutput);
   const dispatch = useDispatch();
   const chatEndRef = useRef(null);
 
@@ -60,6 +67,9 @@ function SearchPage() {
     dispatch(appendChat(data, "SERVER"));
     if (data.stopLoader) {
       showLoader(false);
+    }
+    if (data.isFinished) {
+      dispatch(handleDataSearch(data.components));
     }
   };
 
@@ -136,6 +146,19 @@ function SearchPage() {
       }
 
       setErrorMsg("");
+    } else if (showOptionsDataType === "number") {
+      const intValue = parseInt(value);
+      const responseOptions = latestInteraction.responseOptions || {};
+
+      if (intValue > responseOptions.max || intValue < responseOptions.min) {
+        setErrorMsg(
+          `Value must be between ${responseOptions.min || 0} and ${
+            responseOptions.max || 0
+          }`
+        );
+      } else {
+        setErrorMsg("");
+      }
     }
   };
 
@@ -151,35 +174,47 @@ function SearchPage() {
     }
   };
 
+  const searchOutputExists = (searchOutput?.hotels?.length > 0) || (searchOutput?.flights?.length > 0)
+
   return (
     <Layout title={"Search"}>
       <div className="search-body">
-        <div className="search-chat-area">
+        <div className={searchOutputExists ? "search-chat-area detailsOpen" : "search-chat-area"}>
           <SearchComponents
             components={latestInteraction.components || {}}
             onStartOver={handleStartover}
           />
-          <div className="search-chat-interactions">
+          <div className={"search-chat-interactions"}>
             {(interactions || []).map((item, index) => {
               return <ChatItem item={item} key={index} />;
             })}
             <div ref={chatEndRef} />
           </div>
         </div>
-        <div className="search-chat-input">
-          <TextField
-            label={showOptionsDataType ? "" : "Enter Your Query"}
-            onChange={handleInput}
-            value={input}
-            autoComplete="off"
-            onKeyDown={handleKeyDown}
-            inputProps={{ autoComplete: "off" }}
-            type={showOptionsDataType ? showOptionsDataType : "text"}
-            error={!!errorMsg}
-            helperText={errorMsg}
-          />
-          {loading ? <CircularProgress /> : <Send onClick={handleSend}></Send>}
-        </div>
+        {searchOutputExists ? (
+          <div className="search-chat-output">
+            <SearchOutput/>
+          </div>
+        ) : (
+          <div className="search-chat-input">
+            <TextField
+              label={showOptionsDataType ? "" : "Enter Your Query"}
+              onChange={handleInput}
+              value={input}
+              autoComplete="off"
+              onKeyDown={handleKeyDown}
+              inputProps={{ autoComplete: "off" }}
+              type={showOptionsDataType ? showOptionsDataType : "text"}
+              error={!!errorMsg}
+              helperText={errorMsg}
+            />
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <Send onClick={handleSend}></Send>
+            )}
+          </div>
+        )}
       </div>
     </Layout>
   );

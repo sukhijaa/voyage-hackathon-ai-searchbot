@@ -1,5 +1,7 @@
 const initialState = {
-    interactions: []
+    interactions: [],
+    finalizedComponents: {},
+    searchOutput: {}
 }
 
 const chatbotReducer = (state = initialState, action) => {
@@ -10,7 +12,13 @@ const chatbotReducer = (state = initialState, action) => {
             return {...state, interactions};
         }
         case "chat.reset": {
-            return {...initialState, interactions: []}
+            return {...initialState, interactions: [], finalizedComponents: {}}
+        }
+        case "chat.components" : {
+            return {...state, finalizedComponents: action.payload}
+        }
+        case "chat.search.output": {
+            return {...state, searchOutput: action.payload}
         }
         default: 
         return state
@@ -29,5 +37,19 @@ export const appendChat = (data, sender) => {
 export const resetChat = () => {
     return {
         type: "chat.reset"
+    }
+}
+
+export const setFinalizedComponents = (data) => {
+    return {
+        type: "chat.components",
+        payload: data
+    }
+}
+
+export const setSearchOutput = (data) => {
+    return {
+        type: "chat.search.output",
+        payload: data
     }
 }

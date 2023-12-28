@@ -30,7 +30,7 @@ const SearchComponents = (props) => {
                     return null
                 }
                 return (
-                    <div className="search-chat-accordion-details-single-row-wrapper">
+                    <div className="search-chat-accordion-details-single-row-wrapper" key={name}>
                         <div className="search-chat-accordion-details-single-row-title">{name}</div>
                         <div className="search-chat-accordion-details-single-row-value">{value}</div>
                     </div>
