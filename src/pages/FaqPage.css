@@ -1,0 +1,23 @@
+.faq-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100%;
+}
+.faq-half-side {
+    width: 50%;
+    min-height: 100%;
+    padding: 5px;
+}
+.faq-half-side:first-child {
+    border: 1px solid gray;
+    border-width: 0 1px 0 0;
+}
+.faq-half-side h2 {
+    text-align: center;
+}
+.faq-half-side .MuiAccordion-root {
+    margin: 5px 0;
+}
+.faq-half-side .MuiAccordionDetails-root {
+    text-align: justify;
+}
