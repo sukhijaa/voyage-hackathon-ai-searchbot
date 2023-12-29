@@ -1,0 +1,28 @@
+.team-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.team-member-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    padding: 20px 5px;
+}
+.member-icon {
+    margin: 0 10px;
+
+}
+.member-name {
+    margin: 0 10px;
+    width: 40%;
+}
+.member-email {
+    margin: 0 10px;
+    width: 40%;
+}
