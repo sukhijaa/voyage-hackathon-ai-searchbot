@@ -20,6 +20,7 @@
     flex: 1;
     margin: 10px 20px;
     min-width: 30%;
+    max-width: 30%;
 }
 .search-chat-accordion-details-single-row-title {
     min-width: 180px;
