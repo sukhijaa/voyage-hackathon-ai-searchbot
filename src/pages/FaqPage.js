@@ -62,6 +62,10 @@ const FUTURE_SCORE = [
   {
     question: "Dynamic Itinerary",
     answer: "We wanted to take theme of travel (vacation, business, sports, medical etc.) as input and then ask Bard for places matching this theme (thier lat-long and date) and show hotels and flights accordingly. But we couldn't do it since Hotel API doesn't expose the theme of Hotel currently. We know TBO has this data, all we need is to expose it in API for that to work."
+  },
+  {
+    question: "Editable components",
+    answer: "We wanted to give capability to user to edit the components like start date, end date etc but in the interest of time, we skipped that as part of POC. Purpose was to show how idea can work and hence we have focused more on core functionalities"
   }
 ];
 
