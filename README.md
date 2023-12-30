@@ -3,7 +3,7 @@
 This is a monorepo i.e. both UI and Backend are present in same repo
 
 ## Live Version
-Checkout the Running POC on http://ec2-13-126-209-255.ap-south-1.compute.amazonaws.com:8000/
+Checkout the Running POC on [http://ec2-13-126-209-255.ap-south-1.compute.amazonaws.com:8000/](http://ec2-15-206-79-201.ap-south-1.compute.amazonaws.com:8000/search)
 
 ## Demo Video
 Youtube https://youtu.be/m7RUv1xkanY
