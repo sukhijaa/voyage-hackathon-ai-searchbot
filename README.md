@@ -2,6 +2,9 @@
 
 This is a monorepo i.e. both UI and Backend are present in same repo
 
+## Live Version
+Checkout the Running POC on http://ec2-13-126-209-255.ap-south-1.compute.amazonaws.com:8000/
+
 ## Available Scripts
 
 In the project directory, you can run:
