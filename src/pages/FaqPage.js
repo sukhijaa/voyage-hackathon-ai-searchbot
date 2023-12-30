@@ -6,7 +6,7 @@ import { ExpandMore } from "@mui/icons-material";
 const FAQs = [
   {
     question: "How to use this POC?",
-    answer: "Please watch this video for details: https://youtu.be/m7RUv1xkanY ",
+    answer: <span>You may watch the video here <a href="https://youtu.be/m7RUv1xkanY" target="_blank">Link</a> </span>
   },
   {
     question: "How it works?",
