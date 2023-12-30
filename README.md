@@ -1,5 +1,7 @@
 # Getting Started with SearchBot
 
+This is a monorepo i.e. both UI and Backend are present in same repo
+
 ## Available Scripts
 
 In the project directory, you can run:

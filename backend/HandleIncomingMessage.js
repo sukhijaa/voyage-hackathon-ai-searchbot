@@ -60,7 +60,7 @@ const INPUTS = [
             showOptions: true,
             dataType: "number",
             min: 1,
-            max: 10
+            max: 8
         },
         dataChecker: () => true
     },
